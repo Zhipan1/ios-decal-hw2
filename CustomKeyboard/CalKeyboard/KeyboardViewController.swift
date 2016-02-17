@@ -11,8 +11,22 @@ import UIKit
 class KeyboardViewController: UIInputViewController {
 
     @IBOutlet var nextKeyboardButton: UIButton!
+    @IBOutlet var returnKeyboardButton: UIButton!
+    @IBOutlet var deleteKeyboardButton: UIButton!
+    @IBOutlet var randomYeezyQuoteButton: UIButton!
     
     var keyboardView: UIView!
+    
+    var yeezyQuotes = [
+        "I can’t let these people play me", "When did I become A-list?",
+        "Yeezy, Yeezy, Yeezy, I feel so accomplished",
+        "We on a ultra light beam, we on a ultra light beam",
+        "We'll buy a lot of clothes when we don't really need 'em",
+        "You know what the Midwest is? ... Young & restless",
+        "I wish I could buy me a spaceship",
+        "Fore the day I die, I'mma touch the sky",
+        "Damn, them new loafers hurt my pocket"
+    ]
 
     override func updateViewConstraints() {
         super.updateViewConstraints()
@@ -45,7 +59,22 @@ class KeyboardViewController: UIInputViewController {
         view.addSubview(keyboardView)
         view.backgroundColor = keyboardView.backgroundColor
         nextKeyboardButton.addTarget(self, action: "advanceToNextInputMode", forControlEvents: .TouchUpInside) // advanceToNextInputMode is already defined in template
-        
+        returnKeyboardButton.addTarget(self, action: "returnKey", forControlEvents: .TouchUpInside)
+        deleteKeyboardButton.addTarget(self, action: "deleteBackwards", forControlEvents: .TouchUpInside)
+        randomYeezyQuoteButton.addTarget(self, action: "randomYeezy", forControlEvents: .TouchUpInside)
+    }
+    
+    func randomYeezy() {
+        let rand = Int(arc4random_uniform(UInt32(yeezyQuotes.count)))
+        self.textDocumentProxy.insertText(yeezyQuotes[rand])
+    }
+    
+    func returnKey() {
+        self.textDocumentProxy.insertText("\n")
+    }
+    
+    func deleteBackwards() {
+        self.textDocumentProxy.deleteBackward()
     }
 
 
